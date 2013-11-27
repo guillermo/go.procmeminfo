@@ -50,3 +50,10 @@ func TestUsed(t *testing.T) {
 		t.Error(meminfo.Used())
 	}
 }
+
+func TestSwap(t *testing.T) {
+	meminfo := &MemInfo{"SwapTotal": 10, "SwapFree": 9}
+	if meminfo.Swap() != 10 {
+		t.Error(meminfo.Swap())
+	}
+}

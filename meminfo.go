@@ -295,3 +295,13 @@ func (m *MemInfo) Available() uint64 {
 func (m *MemInfo) Used() uint64 {
 	return m.Total() - m.Available()
 }
+
+// Swap returns the % of swap used
+func (m *MemInfo) Swap() int {
+	total := (*m)["SwapTotal"]
+	free := (*m)["SwapFree"]
+	if total == 0 {
+		return 0
+	}
+	return int((100 * (total - free)) / total)
+}
