@@ -13,7 +13,7 @@ Once the info was updated you can access like a normal map[string]float64
 It also implement some handy methods, like:
 
 	meminfo.Total() // (*meminfo)["MemTotal"]
-	meminfo.Free()  // MemFree + Buffers + Cached
+	meminfo.Free()  // MemFree + Buffers + Cached on old kernels, MemAvailable on newer ones
 	meminfo.Used()  // Total - Free
 
 
@@ -281,11 +281,15 @@ func (m *MemInfo) Total() uint64 {
 	return (*m)["MemTotal"]
 }
 
-// Available return the available memory following this formula:
+// Available return the available memory:
 //
-//	Available = Free + Buffers + Cached
+//  Kernel < 3.14: Available = Free + Buffers + Cached
+//  Kernel >= 3.14: Avaliable = MemAvailable
 func (m *MemInfo) Available() uint64 {
 	d := *m
+	if memAvailable, ok := d["MemAvailable"]; ok {
+		return memAvailable
+	}
 	return d["MemFree"] + d["Buffers"] + d["Cached"]
 }
 
