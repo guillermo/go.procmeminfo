@@ -15,7 +15,7 @@ Package procmeminfo provides an interface for /proc/meminfo
 
     meminfo.Total() // Total memory size in bytes
     meminfo.Free() // Free Memory (Free + Cached + Buffers)
-    meminfo.Used() // Total - Used
+    meminfo.Used() // Total - Free
 ```
 
 
